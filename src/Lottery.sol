@@ -102,7 +102,7 @@ contract Lottery is VRFConsumerBaseV2 {
      * performData
      */
     {
-        bool timeHasPassed = block.timestamp > s_lastTimestamp;
+        bool timeHasPassed = block.timestamp > s_lastTimestamp  + i_timeInterval;
         bool hasBalance = address(this).balance > 0;
         bool hasPlayers = s_players.length > 0;
         bool isOpen = s_lotteryStatus == LotteryState.OPEN;
@@ -146,5 +146,9 @@ contract Lottery is VRFConsumerBaseV2 {
 
     function getPlayersArray() external view returns (address payable[] memory) {
         return s_players;
+    }
+
+    function getVRFCoodinator() external view returns (address) {
+        return address(i_vrfCoordinator);
     }
 }

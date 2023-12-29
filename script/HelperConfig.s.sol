@@ -8,7 +8,7 @@ import {LinkToken} from "../test/mocks/LinkToken.sol";
 
 contract HelperConfig is Script {
     struct NetworkConfig {
-        uint256 pricePerEntrance;//
+        uint256  pricePerEntrance;//
         uint256 timeInterval;//
         address vrfCoordinator;//
         bytes32 keyHash;//
@@ -35,7 +35,7 @@ contract HelperConfig is Script {
     function getSepoliaConfig() public  returns (NetworkConfig memory sepoliaConfig) {
         return sepoliaConfig = NetworkConfig({
             pricePerEntrance: 0.1 ether,
-            timeInterval: 30,
+            timeInterval: 3000,
             vrfCoordinator: 0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625,
             keyHash: 0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c,
             subId: 8146,
@@ -59,7 +59,7 @@ contract HelperConfig is Script {
             vm.stopBroadcast();
             return anvilConfig = NetworkConfig({
                 pricePerEntrance: 0.1 ether,
-                timeInterval: 30,
+                timeInterval: 3000,
                 vrfCoordinator: address(vrfCoordinator),
                 keyHash: 0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c,
                 subId: 0,
@@ -70,5 +70,9 @@ contract HelperConfig is Script {
                 privateKey: ANVIL_PRIVATE_KEY
             });
         }
+    }
+
+    function getVRFCoordinator() public view returns (address) {
+        return activeNetworkConfig.vrfCoordinator;
     }
 }
