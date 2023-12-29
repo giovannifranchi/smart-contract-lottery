@@ -113,6 +113,7 @@ contract LotteryTest is Test {
         lottery.performUpkeep();
     }
 
+    //FUZZ TEST
     function testFulfillRandomWordAlwaysFailsWithNoRequest(uint256 randomId) public{
         address vrfCoordinator = helperConfig.getVRFCoordinator();
         vm.expectRevert();
