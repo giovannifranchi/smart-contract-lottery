@@ -19,6 +19,7 @@ contract Lottery is VRFConsumerBaseV2 {
 
     event PlayerEntered(address indexed player);
     event PickedWinner(address indexed winner);
+    event RequestedRaffleWinner(uint256 indexed requestId);
 
     // Type Declarations
     enum LotteryState {
@@ -119,9 +120,11 @@ contract Lottery is VRFConsumerBaseV2 {
 
         s_lotteryStatus = LotteryState.CLOSED;
 
-        i_vrfCoordinator.requestRandomWords(
+        uint256 requestId = i_vrfCoordinator.requestRandomWords(
             i_keyHash, i_subId, i_minimumRequestConfirmations, i_callbackGasLimit, i_numWords
         );
+
+        emit RequestedRaffleWinner(requestId);
     }
 
     function fulfillRandomWords(uint256, uint256[] memory randomWords) internal override {
@@ -150,5 +153,13 @@ contract Lottery is VRFConsumerBaseV2 {
 
     function getVRFCoodinator() external view returns (address) {
         return address(i_vrfCoordinator);
+    }
+
+    function getRecentWinner() external view returns (address) {
+        return s_recentWinner;
+    }
+
+    function getPlayersCount() external view returns (uint256) {
+        return s_players.length;
     }
 }

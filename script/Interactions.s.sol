@@ -16,12 +16,12 @@ contract CreateSubscription is Script {
 
     function createSubscriptionUsingConfig() public returns (uint64) {
         HelperConfig helperConfig = new HelperConfig();
-        (,,address vrfCoordinator,,,,,,,) = helperConfig.activeNetworkConfig();
+        (,,address vrfCoordinator,,,,,,,uint256 privateKey) = helperConfig.activeNetworkConfig();
         return VRFCoordinatorV2Mock(vrfCoordinator).createSubscription();
     }
 
-    function createSubscription(address vrfCoordinator) public returns (uint64 subId) {
-        vm.startBroadcast();
+    function createSubscription(address vrfCoordinator, uint256 privateKey) public returns (uint64 subId) {
+        vm.startBroadcast(privateKey);
         subId = VRFCoordinatorV2Mock(vrfCoordinator).createSubscription();
         vm.stopBroadcast();
         return subId;
